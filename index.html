@@ -1,0 +1,56 @@
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<button id="addTask">Add Task</button>
+		<script>
+			document.getElementById('addTask').addEventListener('click', AddTask);
+
+			let body = document.getElementsByTagName('body');
+
+			let heading = document.createElement('h1');
+
+			let message = document.createTextNode('ToDo List');
+			heading.appendChild(message);
+
+			console.log(heading);
+
+			let todoList = document.createElement('ul');
+			todoList.addEventListener('click', hide);
+			body[0].appendChild(todoList);
+
+			let ListHeader = document.createElement('lh');
+			ListHeader.innerText = 'ToDo List';
+			todoList.appendChild(ListHeader);
+
+			let list = ['Example 1', 'Example 2'];
+			list.forEach(function (todoText) {
+				let todo = document.createElement('li');
+				todo.innerText = todoText;
+
+				todoList.appendChild(todo);
+			});
+
+			function hide(event) {
+				if (event.target.tagName.toLowerCase() == 'li') {
+					console.log(
+						'Strike-through element on list: ' + event.target.innerText
+					);
+					event.target.classList.toggle('hidden');
+				}
+			}
+
+			function AddTask() {
+				console.log('We are adding task to list.');
+
+				let todo = document.createElement('li');
+				todo.innerText = 'Add New Task';
+
+				todoList.appendChild(todo);
+			}
+		</script>
+	</body>
+</html>
