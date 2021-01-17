@@ -30,7 +30,8 @@
 						class="form-control"
 						placeholder="Add your cleaning task..."
 					/>
-					<button id="add-task" class="btn btn-primary">Add Tasks</button>
+					<button id="add-top" class="btn btn-primary">Add Top</button>
+					<button id="add-bottom" class="btn btn-primary">Add Bottom</button>
 					<button id="reset-task" class="btn btn-success">
 						Reset Stored Tasks
 					</button>
@@ -56,7 +57,22 @@
 			];
 			listTasks();
 
-			document.getElementById('add-task').addEventListener('click', addTask);
+			document
+				.querySelector('button > i')
+				.addEventListener('click', function (e) {
+					e.stopPropagation();
+					e.preventDefault();
+				});
+
+			document.querySelector('button').addEventListener('click', function () {
+				// If the user clicked right on the SVG,
+				// this will never fire
+			});
+
+			document.getElementById('add-top').addEventListener('click', addTopTask);
+			document
+				.getElementById('add-bottom')
+				.addEventListener('click', addBottomTask);
 			document
 				.getElementById('reset-task')
 				.addEventListener('click', resetTask);
@@ -67,16 +83,19 @@
 					listTasks();
 				});
 
-			function addTask() {
+			function addTopTask() {
 				let newTask = document.getElementById('new-task');
 
-				console.log('adding a task...' + newTask.value);
-
-				tasks.push(newTask.value);
-
+				tasks.unshift(newTask.value);
 				newTask.value = '';
 
-				console.log(tasks);
+				listTasks();
+			}
+			function addBottomTask() {
+				let newTask = document.getElementById('new-task');
+
+				tasks.push(newTask.value);
+				newTask.value = '';
 
 				listTasks();
 			}
@@ -99,12 +118,9 @@
 			function listTasks() {
 				let taskList = document.getElementById('task-list');
 
-				// let taskHtml = '';
 				taskList.innerHTML = '';
 
 				tasks.forEach(function (task) {
-					// taskHtml += '<li>' + task + '</li>';
-
 					let newTask = document.createElement('li');
 
 					let taskDone = document.createElement('input');
@@ -122,13 +138,11 @@
 					taskText.innerText = task;
 
 					let taskRemove = document.createElement('button');
-					taskRemove.innerText = 'Remove';
-					// taskRemove.id = task;
-					// taskRemove.innerHTML =
-					// 	'<i class="fa fa-trash-o" aria-hidden="true"></i>';
+					taskRemove.id = task;
+					taskRemove.innerHTML =
+						'<i class="fa fa-trash-o" aria-hidden="true"></i>';
 					taskRemove.classList.add('btn');
 					taskRemove.classList.add('btn-danger');
-					// taskRemove.innerHTML = '<i class="fas fa-trash-can"></i>';
 					taskRemove.addEventListener('click', removeTask);
 
 					newTask.appendChild(taskDone);
@@ -137,25 +151,9 @@
 
 					taskList.appendChild(newTask);
 				});
-
-				// taskList.innerHTML = taskHtml;
 			}
 
 			function removeTask(event) {
-				// // console.log(tasks);
-				// console.log(event.target.tagName);
-				// // console.log(event.target.previousSibling.innerText);
-				// tasks = tasks.filter(function (task) {
-				// 	if (task == event.target.id) {
-				// 		return false;
-				// 	} else {
-				// 		return true;
-				// 	}
-				// });
-				// console.log(tasks);
-
-				console.log(event.target.previousSibling.innerText);
-
 				tasks = tasks.filter(function (task) {
 					if (task == event.target.previousSibling.innerText) {
 						return false;
