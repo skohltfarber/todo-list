@@ -1,0 +1,32 @@
+.logo {
+	width: 50px;
+	height: 50px;
+}
+
+body {
+	background: url(../../assets/images/clean.jpg) no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	background-size: cover;
+	-o-background-size: cover;
+}
+
+.container-white-bg {
+	background: white;
+}
+.done {
+	text-decoration: line-through;
+}
+
+#task-list li {
+	margin-bottom: 10px;
+}
+
+.task-item {
+	display: inline-block;
+	width: 80%;
+}
+
+ul {
+	list-style-type: none;
+}

@@ -2,54 +2,167 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Document</title>
+		<!-- CSS only -->
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+			crossorigin="anonymous"
+		/>
+		<script src="https://use.fontawesome.com/2653ffd22b.js"></script>
+		<link rel="stylesheet" href="./assets/css/style.css" />
+		<title>Spring Cleaning Service</title>
 	</head>
 	<body>
-		<button id="addTask">Add Task</button>
+		<div class="d-sm-inline-flex">
+			<img class="logo" src="./assets/images/logo.png" alt="Arkansas Flag" />
+			<h1>Martha Stewart’s Cleaning Service</h1>
+		</div>
+		<br />
+		<div class="container container-white-bg">
+			<div class="row">
+				<div class="col-sm-6">
+					<h2>Spring Cleaning Checklist</h2>
+
+					<input
+						id="new-task"
+						type="text"
+						class="form-control"
+						placeholder="Add your cleaning task..."
+					/>
+					<button id="add-task" class="btn btn-primary">Add Tasks</button>
+					<button id="reset-task" class="btn btn-success">
+						Reset Stored Tasks
+					</button>
+
+					<ul id="task-list"></ul>
+
+					<button id="clear-list" class="btn btn-secondary">
+						Clear All Tasks
+					</button>
+				</div>
+			</div>
+		</div>
 		<script>
-			document.getElementById('addTask').addEventListener('click', AddTask);
+			var tasks = [
+				'Restock Your Cleaning Supplies',
+				'Wipe Walls and Ceilings',
+				'Vacuum and Shampoo Rugs',
+				'Dust Books and Shelves',
+				'Clean Upholstered Furnishings',
+				'Wax Wooden Furniture',
+				'Wash Window Screens',
+				'Clean Window Treatments',
+			];
+			listTasks();
 
-			let body = document.getElementsByTagName('body');
+			document.getElementById('add-task').addEventListener('click', addTask);
+			document
+				.getElementById('reset-task')
+				.addEventListener('click', resetTask);
+			document
+				.getElementById('clear-list')
+				.addEventListener('click', function () {
+					tasks = [];
+					listTasks();
+				});
 
-			let heading = document.createElement('h1');
+			function addTask() {
+				let newTask = document.getElementById('new-task');
 
-			let message = document.createTextNode('ToDo List');
-			heading.appendChild(message);
+				console.log('adding a task...' + newTask.value);
 
-			console.log(heading);
+				tasks.push(newTask.value);
 
-			let todoList = document.createElement('ul');
-			todoList.addEventListener('click', hide);
-			body[0].appendChild(todoList);
+				newTask.value = '';
 
-			let ListHeader = document.createElement('lh');
-			ListHeader.innerText = 'ToDo List';
-			todoList.appendChild(ListHeader);
+				console.log(tasks);
 
-			let list = ['Example 1', 'Example 2'];
-			list.forEach(function (todoText) {
-				let todo = document.createElement('li');
-				todo.innerText = todoText;
-
-				todoList.appendChild(todo);
-			});
-
-			function hide(event) {
-				if (event.target.tagName.toLowerCase() == 'li') {
-					console.log(
-						'Strike-through element on list: ' + event.target.innerText
-					);
-					event.target.classList.toggle('hidden');
-				}
+				listTasks();
 			}
 
-			function AddTask() {
-				console.log('We are adding task to list.');
+			function resetTask() {
+				tasks = [
+					'Restock Your Cleaning Supplies',
+					'Wipe Walls and Ceilings',
+					'Vacuum and Shampoo Rugs',
+					'Dust Books and Shelves',
+					'Clean Upholstered Furnishings',
+					'Wax Wooden Furniture',
+					'Wash Window Screens',
+					'Clean Window Treatments',
+				];
 
-				let todo = document.createElement('li');
-				todo.innerText = 'Add New Task';
+				listTasks();
+			}
 
-				todoList.appendChild(todo);
+			function listTasks() {
+				let taskList = document.getElementById('task-list');
+
+				// let taskHtml = '';
+				taskList.innerHTML = '';
+
+				tasks.forEach(function (task) {
+					// taskHtml += '<li>' + task + '</li>';
+
+					let newTask = document.createElement('li');
+
+					let taskDone = document.createElement('input');
+					taskDone.type = 'checkbox';
+					taskDone.addEventListener('change', function (event) {
+						if (event.target.checked) {
+							event.target.nextSibling.classList.add('done');
+						} else {
+							event.target.nextSibling.classList.remove('done');
+						}
+					});
+
+					let taskText = document.createElement('span');
+					taskText.classList.add('task-item');
+					taskText.innerText = task;
+
+					let taskRemove = document.createElement('button');
+					taskRemove.id = task;
+					taskRemove.innerHTML =
+						'<i class="fa fa-trash-o" aria-hidden="true"></i>';
+					taskRemove.classList.add('btn');
+					taskRemove.classList.add('btn-danger');
+					// taskRemove.innerHTML = '<i class="fas fa-trash-can"></i>';
+					taskRemove.addEventListener('click', removeTask);
+
+					newTask.appendChild(taskDone);
+					newTask.appendChild(taskText);
+					newTask.appendChild(taskRemove);
+
+					taskList.appendChild(newTask);
+				});
+
+				// taskList.innerHTML = taskHtml;
+			}
+
+			function removeTask(event) {
+				// // console.log(tasks);
+				// console.log(event.target.tagName);
+				// // console.log(event.target.previousSibling.innerText);
+				// tasks = tasks.filter(function (task) {
+				// 	if (task == event.target.id) {
+				// 		return false;
+				// 	} else {
+				// 		return true;
+				// 	}
+				// });
+				// console.log(tasks);
+
+				console.log(event.target.previousSibling.innerText);
+
+				tasks = tasks.filter(function (task) {
+					if (task == event.target.previousSibling.innerText) {
+						return false;
+					} else {
+						return true;
+					}
+				});
+				listTasks();
 			}
 		</script>
 	</body>
