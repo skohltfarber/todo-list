@@ -85,19 +85,26 @@
 
 			function addTopTask() {
 				let newTask = document.getElementById('new-task');
+				if (newTask.value.trim() != '') {
+					tasks.unshift(newTask.value);
+					newTask.value = '';
 
-				tasks.unshift(newTask.value);
-				newTask.value = '';
-
-				listTasks();
+					listTasks();
+				} else {
+					window.alert('We are unable to store blank tasks!');
+				}
 			}
 			function addBottomTask() {
 				let newTask = document.getElementById('new-task');
 
-				tasks.push(newTask.value);
-				newTask.value = '';
+				if (newTask.value.trim() != '') {
+					tasks.push(newTask.value);
+					newTask.value = '';
 
-				listTasks();
+					listTasks();
+				} else {
+					window.alert('We are unable to store blank tasks!');
+				}
 			}
 
 			function resetTask() {
