@@ -122,9 +122,10 @@
 					taskText.innerText = task;
 
 					let taskRemove = document.createElement('button');
-					taskRemove.id = task;
-					taskRemove.innerHTML =
-						'<i class="fa fa-trash-o" aria-hidden="true"></i>';
+					taskRemove.innerText = 'Remove';
+					// taskRemove.id = task;
+					// taskRemove.innerHTML =
+					// 	'<i class="fa fa-trash-o" aria-hidden="true"></i>';
 					taskRemove.classList.add('btn');
 					taskRemove.classList.add('btn-danger');
 					// taskRemove.innerHTML = '<i class="fas fa-trash-can"></i>';
